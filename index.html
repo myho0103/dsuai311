@@ -1,7 +1,16 @@
 <!DOCTYPE html>
 <html>
-<head>
-        <title>Tensorflow.js</title>
+
+<title>Tensorflow.js</title>
+	
+
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm/dist/tf-backend-wasm.js"> </script>
+<body>
+	<canvas id="input" width="500" height="500">
+		<img id="img" src="http://192.168.2.7:81/stream" crossorigin="anonymous" style="visibility: hidden">
+</body>
 	<style>
 		body {
 			background-color: #E7EE7E8;
@@ -10,15 +19,6 @@
 			background-attachment: scroll;
 		}
 	</style>
-</head>
-	
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm/dist/tf-backend-wasm.js"> </script>
-<body>
-	<canvas id="input" width="500" height="500">
-		<img id="img" src="http://192.168.2.7:81/stream" crossorigin="anonymous" style="visibility: hidden">
-</body>
 <script>
 	let model;
 	const img = document.getElementById('img');
