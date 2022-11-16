@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<title>Tensorflow.js</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm/dist/tf-backend-wasm.js"> </script>
+<body>
+	<canvas id="input" width="500" height="500">
+		<img id="img" src="http://192.168.2.7:81/stream" crossorigin="anonymous" style="visibility: hidden">
+</body>
+<script>
+	let model;
+	const img = document.getElementById('img');
+
+	const canvas = document.getElementById("input");
+	const canvasPos = canvas.getBoundingClientRect();
+	const ctx = canvas.getContext("2d");
+	ctx.fillStyle="rgb(0,255,0)";
+	ctx.strokeStyle="rgb(0,255,0)";
+	ctx.lineWidth = 2;
+	ctx.font ="15px Arial";
+	
+	cocoSsd.load().then(net =>{
+		model = net;
+		main();
+	});
+	
+	function main(){
+		ctx.drawImage(img,0,0,img.width,img.height);
+		model.detect(img).then(predictions =>{
+			if(predictions.length>0){
+				for(let i=0; i<predictions.length; i++){
+					ctx.beginPath();
+					ctx.rect(predictions[i].bbox[0], predictions[i].bbox[1], predictions[i].bbox[2], predictions[i].bbox[3]);
+					ctx.fillText(predictions[i].class, predictions[i].bbox[0]+5, predictions[i].bbox[1]+15);
+					ctx.stroke();
+				}
+			}
+		});
+		setTimeout(main,33);
+	}
+</script>
+</html>
